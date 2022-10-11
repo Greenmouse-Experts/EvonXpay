@@ -172,7 +172,7 @@
             <div class="card-body">
               <div class="live">
                 <img
-                  src="@/assets/user/img/Group 45992 (1).png"
+                  src="@/assets/user/img/Group1.png"
                   draggable="false"
                   alt=""
                 />
@@ -185,7 +185,7 @@
               </div>
               <div class="live">
                 <img
-                  src="@/assets/user/img/Group 45992 (2).png"
+                  src="@/assets/user/img/Group2.png"
                   draggable="false"
                   alt=""
                 />
