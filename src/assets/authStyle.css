@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+    background-color: #ff8c0015 !important;
+}
+body{
+    background-color: #ff8c0000 !important;
+}
+html, body{
+    font-family: 'Work Sans', sans-serif !important;
+    scroll-behavior: smooth !important;
+}
+main{
+    padding: 50px 10px 50px 10px;
+}
+main .forgot-h1{
+    padding-bottom: 1px !important;
+}
+main .forgot-p{
+    padding-bottom: 20px;
+}
+main .admin-logo{
+    width: 150px;
+    margin: auto;
+    display: block;
+    padding-bottom: 30px;
+}
+main .details-box{
+    padding-top: 60px;
+}
+main .details-box .logo-area{
+    width: 200px;
+    display: block;
+    margin: auto;
+    padding-bottom: 28px;
+}
+main .details-box h5{
+    font-weight: 600;
+    font-size: 23px;
+    color: #000000;
+}
+main .details-box p{
+    font-size: 18px;
+    color: #000;
+}
+main .login-details-box{
+    margin-top: -50px;
+}
+main .login-details-box .main-img{
+    width: 400px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+main .auth-box{
+    background-color: #ffffff;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.137);
+}
+main .auth-box h1{
+    font-weight: 700;
+    font-size: 25px;
+    padding-bottom: 30px;
+    color: #000000;
+}
+main .auth-box form label{
+    display: block;
+    font-size: 16px;
+    padding-bottom: 5px;
+    font-weight: 500;
+    color: #000000;
+}
+main .auth-box form i{
+    position: absolute;
+    font-size: 20px;
+    margin: 9px;
+    padding-right: 10px;
+    border-right: 1px solid #5f5f5f;;
+    color: #5f5f5f;
+    font-weight: 900;
+}
+main .auth-box form input{
+    width: 100%;
+    padding: 10px 5px 10px 50px;
+    border-radius: 6px;
+    border: 1px solid #5f5f5f;
+    color: #383838;
+    font-size: 17px;
+    font-weight: 500;
+    background-color: #FEF6EC;
+}
+main .auth-box form input:focus{
+    outline: none;
+    border: 2px solid #5f5f5f;
+}
+main .auth-box form input::-webkit-input-placeholder{
+    font-size: 14px;
+    font-weight: 500;
+}
+main .auth-box form input:-ms-input-placeholder{
+    font-size: 14px;
+    font-weight: 500;
+}
+main .auth-box form input::placeholder {
+    font-size: 14px;
+    font-weight: 500;
+}
+main .auth-box form .text-terms{
+    font-size: 15px;
+}
+main .auth-box form .text-terms a{
+    color: #FF8E00;
+    text-decoration-color: #d47500;
+}
+main .auth-box form button{
+    width: 100%;
+    padding: 12px 5px;
+    border: none;
+    background-color: #FF8E00;
+    font-size: 17px;
+    font-weight: 600;
+    color: #ffffff;
+    border-radius: 6px;
+    border: 2px solid #FF8E00;
+    box-shadow: 0px 10px 20px #00000013;
+}
+main .auth-box form button:hover{
+    border: 2px solid #FF8E00;
+    background-color: #ff8c0000;
+    color: #FF8E00;
+    box-shadow: 0px 10px 20px #00000000;
+}
+main .auth-box .hr-div{
+    width: 95%; 
+    height: 15px; 
+    border-bottom: 1px solid #5f5f5f; 
+    text-align: center;
+    margin: auto;
+}
+main .auth-box .hr-div span{
+    font-size: 15px; 
+    background-color: #fff; 
+    color: #000000;
+    padding: 0px 10px;
+    font-weight: 500;
+}
+main .auth-box .signup-option{
+    margin-top: 50px;
+}
+main .auth-box .signup-option a{
+    color: #000000;
+    text-decoration: none;
+    padding: 10px 30px;
+    border: 1px solid #2669C0;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 15px;
+}
+main .auth-box .signup-option a img{
+    width: 25px;
+    padding-right: 5px;
+}
+main .auth-box .signup-option a:hover{
+    background-color: #FEF6EC;
+    border: 1px solid #000;
+}
+main .auth-box .alternate{
+    margin-top: 50px;
+}
+main .auth-box .alternate p{
+    font-size: 17px;
+    font-weight: 600;
+}
+main .auth-box .alternate p a{
+    color: #FF8E00;
+    text-decoration: none;
+}
+main .auth-box .forgot-alternate{
+    margin-top: 20px;
+}
+@media(max-width: 1199px){
+    main .auth-box .signup-option a{
+        padding: 10px;
+    } 
+    main .auth-box .alternate p{
+        font-size: 16px;
+    }
+    main .auth-box{
+        padding: 50px 30px;
+    }
+    main .auth-box form label{
+        font-size: 15px;
+    }
+    main .auth-box form input::-webkit-input-placeholder{
+        font-size: 13px;
+    }
+    main .auth-box form input:-ms-input-placeholder{
+        font-size: 13px;
+    }
+    main .auth-box form input::placeholder {
+        font-size: 13px;
+    }
+}
+@media(max-width: 991px){
+    main .auth-box .signup-option a{
+        padding: 10px 1px;
+        font-size: 15px;
+    } 
+}
+@media(max-width: 767px){
+    main .details-box{
+        padding-top: 1px;
+    }
+    main .details-box .logo-area{
+        padding-bottom: 25px;
+    }
+    main .details-box h5{
+        font-size: 20px;
+        padding-bottom: 30px;
+    }
+    main .details-box p, main .details-box .main-img{
+        display: none;
+    }
+    main .auth-box .signup-option a{
+        padding: 10px;
+    } 
+    main{
+        padding: 40px 10px;
+    }
+    main .login-details-box{
+        margin-top: 1px;
+    }
+}
+@media(max-width: 396px){
+    main{
+        padding: 40px 1px;
+    }
+}
