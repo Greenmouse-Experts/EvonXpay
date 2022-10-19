@@ -49,7 +49,7 @@
               <RouterLink to="/user/profile"> Profile </RouterLink>
             </li>
             <li>
-              <a href="#"> Log out </a>
+              <a @click="logOut" href="#"> Log out </a>
             </li>
           </ul>
         </li>
@@ -60,7 +60,23 @@
 </template>
 
 <script>
-export default {};
+import { ref } from "vue";
+import { AuthData } from "../../stores/auth";
+import { useRouter } from "vue-router";
+
+export default {
+  setup() {
+    const store = ref(AuthData());
+    const router = ref(useRouter());
+    const logOut = () => {
+      store.value.signOut();
+      router.value.push("/auth/login");
+    };
+    return {
+      logOut,
+    };
+  },
+};
 </script>
 
 <style></style>

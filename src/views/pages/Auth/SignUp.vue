@@ -130,6 +130,14 @@
                     <RouterLink to="/terms">Terms & Conditions</RouterLink> and
                     <RouterLink to="/privacy">Privacy Policy</RouterLink>
                   </p>
+                  <div>
+                    <font-awesome-icon
+                      v-if="loading"
+                      style="margin-top: 21px; color: #fff; border: 0"
+                      icon="fa-solid fa-spinner"
+                      spin
+                    />
+                  </div>
                 </div>
                 <div class="col-lg-12 mb-2">
                   <button :disabled="disable" type="submit">Sign Up</button>
@@ -180,6 +188,7 @@ import { useRouter } from "vue-router";
 export default {
   setup() {
     const disable = ref(false);
+    const loading = ref(false);
     const router = useRouter();
     const formData = reactive({
       email: "",
@@ -242,6 +251,8 @@ export default {
     const signUp = async () => {
       const result = await v$.value.$validate();
       if (result) {
+        disable.value = true;
+        loading.value = true;
         axios
           .post(
             "https://evonxpay-backend.herokuapp.com/api/register-user",
@@ -253,6 +264,8 @@ export default {
             }
           )
           .then((res) => {
+            disable.value = false;
+            loading.value = false;
             Swal.fire({
               text: `${res.data.message}`,
               confirmButtonText: "Ok",
@@ -263,6 +276,8 @@ export default {
             });
           })
           .catch((err) => {
+            disable.value = false;
+            loading.value = false;
             Swal.fire({
               icon: "error",
               text: `${err.response.data.message}`,
@@ -275,6 +290,7 @@ export default {
       disable,
       signUp,
       v$,
+      loading,
     };
   },
 };

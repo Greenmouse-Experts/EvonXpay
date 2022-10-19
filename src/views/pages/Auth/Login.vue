@@ -61,7 +61,16 @@
                   <p class="text-terms">
                     <a href="#">Forgot Password?</a>
                   </p>
+                  <div>
+                    <font-awesome-icon
+                      v-if="loading"
+                      style="margin-top: 21px; color: #fff; border: 0"
+                      icon="fa-solid fa-spinner"
+                      spin
+                    />
+                  </div>
                 </div>
+
                 <div class="col-lg-12 mb-4">
                   <button :disabled="disable" type="submit">Login</button>
                 </div>
@@ -108,6 +117,7 @@ export default {
     const { logUser } = AuthData();
     const router = useRouter();
     const route = useRoute();
+    const loading = ref(false);
     const formData = reactive({
       email: "",
       password: "",
@@ -138,16 +148,22 @@ export default {
       const result = await v$.value.$validate();
       if (result) {
         disable.value = true;
+        loading.value = true;
         axios
-          .post("https://evonxpay-backend.herokuapp.com/api/signin-user", formData)
+          .post(
+            "https://evonxpay-backend.herokuapp.com/api/signin-user",
+            formData
+          )
           .then((res) => {
             disable.value = false;
+            loading.value = false;
             let data = res.data;
             logUser(data);
             router.replace("/user/dashboard");
           })
           .catch((err) => {
             disable.value = false;
+            loading.value = false;
             Swal.fire({
               icon: "error",
               text: `${err.response.data.message}`,
@@ -169,6 +185,7 @@ export default {
       formData,
       disable,
       v$,
+      loading,
     };
   },
 };
