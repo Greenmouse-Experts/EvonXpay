@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import { adminAuth, userAuth } from "../constant/authentication";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -87,6 +88,7 @@ const router = createRouter({
       path: "/admin",
       name: "Admin",
       component: () => import("../views/pages/App/Admin/Index.vue"),
+      beforeEnter: adminAuth,
       redirect: "/admin/dashboard",
       children: [
         {
@@ -100,6 +102,7 @@ const router = createRouter({
       path: "/user",
       name: "User",
       component: () => import("../views/pages/App/User/Index.vue"),
+      beforeEnter: userAuth,
       redirect: "/user/dashboard",
       children: [
         {
@@ -111,7 +114,8 @@ const router = createRouter({
           path: "/user/wallet",
           name: "UserWallet",
           component: () => import("../views/pages/App/User/Wallet.vue"),
-        },{
+        },
+        {
           path: "/user/market",
           name: "UserMarket",
           component: () => import("../views/pages/App/User/Market.vue"),
@@ -137,6 +141,16 @@ const router = createRouter({
           component: () => import("../views/pages/App/User/Services.vue"),
         },
       ],
+    },
+    {
+      path: "/email-verification",
+      name: "EmailVerification",
+      component: () => import("../views/verifyEmail.vue"),
+    },
+    {
+      path: "/api/pay/verify",
+      name: "PaymentVerification",
+      component: () => import("../views/verifyPayment.vue"),
     },
   ],
 });
