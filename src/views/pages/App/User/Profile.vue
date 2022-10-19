@@ -19,47 +19,57 @@
                       <div class="pt-5">
                         <div class="bg-img m-auto">
                           <img
+                            v-if="!data.img_url"
                             src="@/assets/user/img/avtar/01.jpg"
+                            class="img-fluid"
+                            alt="users-avatar"
+                          />
+                          <img
+                            v-else-if="previewImage"
+                            :src="previewImage"
+                            class="img-fluid"
+                            alt="users-avatar"
+                          />
+                          <img
+                            v-else
+                            :src="data.img_url"
                             class="img-fluid"
                             alt="users-avatar"
                           />
                         </div>
                         <div class="profile pt-4">
-                          <h4 class="mb-1">Hamzat</h4>
-                          <p>FrontEnd Developer</p>
+                          <h4 class="mb-1">
+                            {{ data.firstname }} {{ data.lastname }}
+                          </h4>
+                          <p>{{ data.phone_no }}</p>
                         </div>
                       </div>
                     </div>
 
-                    <div class="py-5 profile-counter">
-                      <ul class="nav justify-content-center text-center">
-                        <li class="nav-item border-right px-3">
-                          <div>
-                            <h4 class="mb-0">20 +</h4>
-                            <p>Documents</p>
-                          </div>
-                        </li>
-
-                        <li class="nav-item border-right px-3">
-                          <div>
-                            <h4 class="mb-0">5 +</h4>
-                            <p>Notification</p>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-
                     <div class="profile-btn text-center">
-                      <div>
-                        <button class="btn btn-light text-primary mb-2">
-                          <input type="file" />
-                        </button>
-                      </div>
-                      <div>
-                        <button class="btn btn-danger">
-                          Upload New Avatar
-                        </button>
-                      </div>
+                      <form @submit.prevent="uploadImage">
+                        <div>
+                          <div
+                            class="btn btn-light text-primary mb-2"
+                            style="cursor: pointer"
+                          >
+                            <input
+                              accept="image/*"
+                              type="file"
+                              @change="chooseImage"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <button
+                            type="submit"
+                            :disabled="disabled"
+                            class="btn btn-danger"
+                          >
+                            Upload New Avatar
+                          </button>
+                        </div>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -71,7 +81,10 @@
                     <div class="">
                       <div class="forming">
                         <div class="sign">
-                          <form class="sign-div">
+                          <form
+                            class="sign-div"
+                            @submit.prevent="UpdateProfile"
+                          >
                             <div class="row">
                               <!--Company Name-->
                               <div class="col-md-12">
@@ -81,7 +94,7 @@
                                     <input
                                       type="text"
                                       placeholder="Enter Your First Name"
-                                      name="username"
+                                      v-model="userData.firstname"
                                       class="input"
                                       required
                                     />
@@ -97,7 +110,7 @@
                                     <input
                                       type="text"
                                       placeholder="Enter Your Last Name"
-                                      name="username"
+                                      v-model="userData.lastname"
                                       class="input"
                                       required
                                     />
@@ -113,7 +126,7 @@
                                     <input
                                       type="text"
                                       placeholder="Enter Your Phone Number"
-                                      name="username"
+                                      v-model="userData.phone_no"
                                       class="input"
                                       required
                                     />
@@ -129,16 +142,16 @@
                                     <input
                                       type="text"
                                       placeholder="Enter Your Email"
-                                      name="username"
+                                      v-model="userData.email"
                                       class="input"
-                                      required
+                                      readonly
                                     />
                                   </div>
                                 </div>
                               </div>
                               <!--Phone Number Ends-->
                               <div class="col-md-12 mb-3">
-                                <button value="submit" required>
+                                <button type="submit" required>
                                   Update Profile
                                 </button>
                               </div>
@@ -157,7 +170,10 @@
                     <div class="">
                       <div class="forming">
                         <div class="sign">
-                          <form class="sign-div">
+                          <form
+                            class="sign-div"
+                            @submit.prevent="UpdatePassword"
+                          >
                             <div class="row">
                               <!--Old Password-->
                               <div class="col-md-12">
@@ -167,7 +183,7 @@
                                     <input
                                       type="password"
                                       placeholder="**********"
-                                      name="username"
+                                      v-model="userData.oldPassword"
                                       class="input"
                                       required
                                     />
@@ -183,7 +199,7 @@
                                     <input
                                       type="password"
                                       placeholder="**********"
-                                      name="username"
+                                      v-model="userData.newPassword"
                                       class="input"
                                       required
                                     />
@@ -199,7 +215,7 @@
                                     <input
                                       type="password"
                                       placeholder="**********"
-                                      name="username"
+                                      v-model="userData.cNewPassword"
                                       class="input"
                                       required
                                     />
@@ -238,21 +254,152 @@
 </template>
 
 <script>
-import { onMounted } from "vue";
+import axios from "axios";
+import { onMounted, reactive, ref } from "vue";
+import Swal from "sweetalert2";
+import { useRouter } from 'vue-router';
 
 export default {
+  name: "UserProfile",
   setup() {
-    onMounted(() => {
-      const recaptchaScript = document.createElement("script");
-      recaptchaScript.setAttribute(
-        "src",
-        "http://127.0.0.1:5500/assets/js/vendors.js"
-      );
-      document.head.appendChild(recaptchaScript);
-      const toggleJs = document.createElement("script");
-      toggleJs.setAttribute("src", "http://127.0.0.1:5500/assets/js/app.js");
-      document.head.appendChild(toggleJs);
+    const user = ref(JSON.parse(localStorage.getItem("userData")));
+    const data = ref([{}]);
+    const previewImage = ref("");
+    const router = useRouter();
+    const disabled = ref(false);
+    const image = ref("");
+    const userData = reactive({
+      firstname: "",
+      lastname: "",
+      email: "",
+      phone_no: "",
+      oldPassword: "",
+      newPassword: "",
+      cNewPassword: "",
     });
+
+    const getUserData = () => {
+      axios
+        .get("https://evonxpay-backend.herokuapp.com/api/dashboard/profile", {
+          headers: {
+            Authorization: `${user.value.access_token}`,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          data.value = res.data.data;
+          const datas = res.data.data;
+          userData.firstname = datas.firstname;
+          userData.lastname = datas.lastname;
+          userData.email = datas.email;
+          userData.phone_no = datas.phone_no;
+        });
+    };
+    const chooseImage = (e) => {
+      image.value = e.target.files[0];
+      const img = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(img);
+      reader.onload = (e) => {
+        previewImage.value = e.target.result;
+        console.log(previewImage.value);
+      };
+    };
+
+    const uploadImage = async () => {
+      const fd = new FormData();
+      fd.append("image", image.value);
+      const res = await fetch(
+        `https://evonxpay-backend.herokuapp.com/api/dashboard/profile/upload-pic`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `${user.value.access_token}`,
+          },
+          body: fd,
+        }
+      );
+      const data = await res.json();
+      Swal.fire({
+        icon: "success",
+        text: "image uploaded successfully",
+      });
+      getUserData();
+    };
+
+    const UpdateProfile = () => {
+      const UserDatas = {
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        phone_no: userData.phone_no,
+      };
+      axios
+        .post("https://evonxpay-backend.herokuapp.com/api/dashboard/profile/update", UserDatas, {
+          headers: {
+            Authorization: `${user.value.access_token}`,
+          },
+        })
+        .then(() => {
+          getUserData();
+          Swal.fire({
+            icon: "success",
+            text: "Profile successfully updated",
+          });
+        });
+    };
+
+    const UpdatePassword = () => {
+      const passData = {
+        password: userData.oldPassword,
+        new_password: userData.newPassword,
+        confirm_password: userData.cNewPassword,
+      };
+      axios
+        .post("https://evonxpay-backend.herokuapp.com/api/change-password", passData, {
+          headers: {
+            Authorization: `${user.value.access_token}`,
+          },
+        })
+        .then(() => {
+          getUserData();
+          Swal.fire({
+            icon: "success",
+            text: "Password successfully changed",
+          });
+          Swal.fire({
+            icon: "success",
+            text: "Password successfully changed, click ok to login again",
+            confirmButtonText: "Ok",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              localStorage.removeItem("userData");
+              router.replace("/auth/login");
+            }
+          });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            text: `${err.response.data.message}`,
+          });
+        });
+    };
+
+    onMounted(() => {
+      getUserData();
+    });
+    return {
+      getUserData,
+      data,
+      chooseImage,
+      previewImage,
+      image,
+      disabled,
+      uploadImage,
+      userData,
+      UpdateProfile,
+      UpdatePassword,
+    };
   },
 };
 </script>

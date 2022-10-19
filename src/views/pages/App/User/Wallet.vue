@@ -13,7 +13,7 @@
           <div class="color" style="background-color: #ffe5e2">
             <div class="text">
               <h4>Total Balance</h4>
-              <h5>1540</h5>
+              <h5>{{ totalbalance }}</h5>
 
               <div class="btn-div">
                 <img src="@/assets/user/img/gross.png" draggable="false" />
@@ -24,7 +24,7 @@
         <div class="col-lg-4">
           <div class="color" style="background-color: #ffe2fd">
             <div class="text">
-              <h4>Total Send</h4>
+              <h4>Total Spent</h4>
               <h5>500</h5>
 
               <div class="btn-div">
@@ -36,7 +36,7 @@
         <div class="col-lg-4">
           <div class="color" style="background-color: #e2e8ff">
             <div class="text">
-              <h4>Total Received</h4>
+              <h4>Total Deposit</h4>
               <h5>560</h5>
               <div class="btn-div">
                 <img
@@ -49,7 +49,22 @@
         </div>
       </div>
       <!-- Advertising Ends -->
-
+      <div class="page-account-form col-md-12 mb-3">
+        <button
+          @click="showPrice"
+          style="
+            width: 20%;
+            padding: 10px;
+            text-align: center;
+            border: none;
+            background-color: #000;
+            color: #fff;
+            border-radius: 10px;
+          "
+        >
+          Deposit
+        </button>
+      </div>
       <!-- Services -->
       <div class="row editable-wrapper">
         <div class="col-lg-12">
@@ -64,12 +79,20 @@
                     <tr>
                       <th>Status</th>
                       <th>Reference</th>
+                      <th>Amount</th>
                       <th>Transaction Information</th>
-                      <th>Channel</th>
                       <th>Date</th>
                     </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody>
+                    <tr v-for="item in transaction" :key="item.id">
+                      <td>{{ item.status }}</td>
+                      <td>{{ item.ref_no }}</td>
+                      <td>{{ item.price }}</td>
+                      <td>{{ item.description }}</td>
+                      <td>{{ getDate(item.createdAt) }}</td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -85,23 +108,107 @@
 </template>
 
 <script>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { useRoute } from "vue-router";
+import moment from "moment";
 
 export default {
+  name: "UserWallet",
   setup() {
+    const user = ref(JSON.parse(localStorage.getItem("userData")));
+    const route = useRoute();
+    const transaction = ref([]);
+    const totalbalance = ref(0);
     onMounted(() => {
-      const recaptchaScript = document.createElement("script");
-      recaptchaScript.setAttribute(
-        "src",
-        "http://127.0.0.1:5500/assets/js/vendors.js"
-      );
-      document.head.appendChild(recaptchaScript);
-      const toggleJs = document.createElement("script");
-      toggleJs.setAttribute("src", "http://127.0.0.1:5500/assets/js/app.js");
-      document.head.appendChild(toggleJs);
+      let message = route.query.message;
+      if (message != undefined) {
+        Swal.fire({
+          icon: "success",
+          text: `${JSON.stringify(message)}`,
+        });
+      }
+      axios
+        .get("https://evonxpay-backend.herokuapp.com/api/dashboard/profile", {
+          headers: {
+            Authorization: `${user.value.access_token}`,
+          },
+        })
+        .then((res) => {
+          totalbalance.value = res.data.data.balance;
+        });
+      axios
+        .get("https://evonxpay-backend.herokuapp.com/api/user/transaction", {
+          headers: {
+            Authorization: `${user.value.access_token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res.data.data);
+          transaction.value = res.data.data;
+        });
     });
+    const getDate = (value) => {
+      return moment(value).format("lll");
+    };
+    const showPrice = async () => {
+      const { value: amount } = await Swal.fire({
+        title: "Input Deposit Amount",
+        input: "number",
+        inputLabel: "Your amount to deposite",
+        inputPlaceholder: "Enter amount to deposite",
+        inputValidator: (value) => {
+          if (!value) {
+            return "You need to input an amount!";
+          }
+        },
+      });
+      if (amount) {
+        axios
+          .post(
+            "https://evonxpay-backend.herokuapp.com/api/deposit-wallet",
+            {
+              amount: amount,
+            },
+            {
+              headers: {
+                Authorization: `${user.value.access_token}`,
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res.data.transaction.data.authorization_url);
+            window.location.href = `${res.data.transaction.data.authorization_url}`;
+          });
+      }
+    };
+    return {
+      showPrice,
+      user,
+      transaction,
+      getDate,
+      totalbalance,
+    };
   },
 };
 </script>
 
-<style></style>
+<style>
+.swal2-actions .swal2-confirm {
+  background-color: #000000 !important;
+}
+.swal2-popup .swal2-title {
+  display: block;
+  position: relative;
+  max-width: 100%;
+  margin: 22px 0 0.4em !important;
+  padding: 0;
+  color: #595959;
+  font-size: 1.875em;
+  font-weight: 600;
+  text-align: center;
+  text-transform: none;
+  word-wrap: break-word;
+}
+</style>

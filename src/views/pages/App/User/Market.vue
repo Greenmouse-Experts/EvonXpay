@@ -145,18 +145,9 @@
 import { onMounted } from "vue";
 
 export default {
+  name: "UserMarket",
   setup() {
-    onMounted(() => {
-      const recaptchaScript = document.createElement("script");
-      recaptchaScript.setAttribute(
-        "src",
-        "http://127.0.0.1:5500/assets/js/vendors.js"
-      );
-      document.head.appendChild(recaptchaScript);
-      const toggleJs = document.createElement("script");
-      toggleJs.setAttribute("src", "http://127.0.0.1:5500/assets/js/app.js");
-      document.head.appendChild(toggleJs);
-    });
+    onMounted(() => {});
   },
 };
 </script>
