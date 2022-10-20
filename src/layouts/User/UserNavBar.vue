@@ -5,7 +5,7 @@
       <!-- begin navbar-header -->
       <div class="navbar-header d-flex align-items-center">
         <a href="javascript:void:(0)" class="mobile-toggle"
-          ><i class="ti ti-align-right"></i>
+          ><i class="ti ti-align-right" style="color: #fff"></i>
         </a>
         <a class="navbar-brand" href="#">
           <img
@@ -30,8 +30,9 @@
         aria-controls="navbarSupportedContent"
         aria-expanded="false"
         aria-label="Toggle navigation"
+        
       >
-        <i class="ti ti-align-left"></i>
+        <i class="ti ti-align-left" style="color: #fff"></i>
       </button>
       <!-- end navbar-header -->
       <!-- begin navigation -->

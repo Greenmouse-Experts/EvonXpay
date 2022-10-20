@@ -21,7 +21,7 @@
           <div class="color" style="background-color: #fff">
             <div class="text">
               <h4>Total No. of Transaction</h4>
-              <h5>57 +</h5>
+              <h5>{{ transaction.length }}</h5>
               <div class="user">From Users</div>
               <div class="btn-div">
                 <img
@@ -49,12 +49,20 @@
                     <tr>
                       <th>Status</th>
                       <th>Reference</th>
+                      <th>Amount</th>
                       <th>Transaction Information</th>
-                      <th>Channel</th>
                       <th>Date</th>
                     </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody>
+                    <tr v-for="item in transaction" :key="item.id">
+                      <td>{{ item.status }}</td>
+                      <td>{{ item.ref_no }}</td>
+                      <td>{{ item.price }}</td>
+                      <td>{{ item.description }}</td>
+                      <td>{{ getDate(item.createdAt) }}</td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -70,12 +78,35 @@
 </template>
 
 <script>
-import { onMounted } from "vue";
+import axios from "axios";
+import moment from "moment";
+import { onMounted, ref } from "vue";
 
 export default {
   name: "UserTransaction",
   setup() {
-    onMounted(() => {});
+    const user = ref(JSON.parse(localStorage.getItem("userData")));
+    const transaction = ref([]);
+    onMounted(() => {
+      axios
+        .get("https://evonxpay-backend.herokuapp.com/api/user/transaction", {
+          headers: {
+            Authorization: `${user.value.access_token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res.data.data);
+          transaction.value = res.data.data;
+        });
+    });
+    const getDate = (value) => {
+      return moment(value).format("lll");
+    };
+    return {
+      user,
+      transaction,
+      getDate,
+    };
   },
 };
 </script>

@@ -15957,6 +15957,20 @@ ol.breadcrumb {
     height: 100%;
     overflow: hidden;
 }
+@media (max-width: 990px) {
+    .app-navbar .sidebar-nav {
+        -webkit-flex: 1 1 auto !important;
+        -ms-flex: 1 1 auto !important;
+        flex: 1 1 auto !important;
+        -webkit-flex-basis: auto !important;
+        -ms-flex-preferred-size: auto !important;
+        flex-basis: auto !important;
+        margin-bottom: auto;
+        height: 100%;
+        overflow: hidden;
+        margin-top: 30% !important;
+    }
+}
 .app-navbar .sidebar-nav ul.metismenu {
     background: 0 0;
 }

@@ -15,12 +15,12 @@
             <span class="nav-title"> Wallet </span>
           </RouterLink>
         </li>
-        <li>
+        <!-- <li>
           <RouterLink to="/user/market" aria-expanded="false">
             <img src="@/assets/user/img/V-b.png" draggable="false" alt="" />
             <span class="nav-title"> Market </span>
           </RouterLink>
-        </li>
+        </li> -->
         <li>
           <RouterLink to="/user/services" aria-expanded="false">
             <img src="@/assets/user/img/V-d.png" draggable="false" alt="" />
@@ -79,4 +79,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+@media (max-width: 990px) {
+  .app-navbar .sidebar-nav {
+    margin-top: 30% !important;
+  }
+}
+</style>
