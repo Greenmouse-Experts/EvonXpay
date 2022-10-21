@@ -113,6 +113,7 @@ import { AuthData } from "@/stores/auth";
 import { useRoute, useRouter } from "vue-router";
 import Swal from "sweetalert2";
 export default {
+  name: "UserLogin",
   setup() {
     const { logUser } = AuthData();
     const router = useRouter();
