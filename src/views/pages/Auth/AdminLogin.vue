@@ -49,7 +49,15 @@
                   </span>
                 </div>
                 <div class="col-lg-12">
-                  <button type="submit">Login</button>
+                  <div>
+                    <font-awesome-icon
+                      v-if="loading"
+                      style="margin-top: 21px; color: #fff; border: 0"
+                      icon="fa-solid fa-spinner"
+                      spin
+                    />
+                  </div>
+                  <button :disabled="disable" type="submit">Login</button>
                 </div>
               </div>
             </form>
