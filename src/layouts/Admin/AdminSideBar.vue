@@ -11,9 +11,9 @@
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/admin/market" aria-expanded="false">
+          <RouterLink to="/admin/transactions" aria-expanded="false">
             <img src="@/assets/admin/img/V-b.png" draggable="false" alt="" />
-            <span class="nav-title"> Market </span>
+            <span class="nav-title"> Transactions </span>
           </RouterLink>
         </li>
         <li>

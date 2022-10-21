@@ -94,7 +94,22 @@ const router = createRouter({
         {
           path: "/admin/dashboard",
           name: "AdminDashboard",
-          component: () => import("../views/pages/App/Admin/Dashboard.vue")
+          component: () => import("../views/pages/App/Admin/Dashboard.vue"),
+        },
+        {
+          path: "/admin/users",
+          name: "AdminUsers",
+          component: () => import("../views/pages/App/Admin/Users.vue"),
+        },
+        {
+          path: "/admin/profile",
+          name: "AdminProfile",
+          component: () => import("../views/pages/App/Admin/Profile.vue"),
+        },
+        {
+          path: "/admin/transactions",
+          name: "AdminTransaction",
+          component: () => import("../views/pages/App/Admin/Transaction.vue"),
         },
       ],
     },

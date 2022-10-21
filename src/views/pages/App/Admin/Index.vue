@@ -36,13 +36,10 @@ export default {
   setup() {
     onMounted(() => {
       const recaptchaScript = document.createElement("script");
-      recaptchaScript.setAttribute(
-        "src",
-        "http://127.0.0.1:5500/assets/js/vendors.js"
-      );
+      recaptchaScript.setAttribute("src", "/vendors.js");
       document.head.appendChild(recaptchaScript);
       const toggleJs = document.createElement("script");
-      toggleJs.setAttribute("src", "http://127.0.0.1:5500/assets/js/app.js");
+      toggleJs.setAttribute("src", "/app.js");
       document.head.appendChild(toggleJs);
     });
   },
