@@ -155,6 +155,21 @@ const router = createRouter({
           name: "UserServices",
           component: () => import("../views/pages/App/User/Services.vue"),
         },
+        {
+          path: "/user/data",
+          name: "UserData",
+          component: () => import("../views/pages/App/User/Data.vue"),
+        },
+        {
+          path: "/user/airtime",
+          name: "UserAirtime",
+          component: () => import("../views/pages/App/User/Airtime.vue"),
+        },
+        {
+          path: "/user/utility",
+          name: "UserUtility",
+          component: () => import("../views/pages/App/User/Utility.vue"),
+        },
       ],
     },
     {
