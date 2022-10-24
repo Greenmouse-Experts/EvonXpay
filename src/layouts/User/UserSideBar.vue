@@ -22,10 +22,21 @@
           </RouterLink>
         </li> -->
         <li>
-          <RouterLink to="/user/services" aria-expanded="false">
-            <img src="@/assets/user/img/V-d.png" draggable="false" alt="" />
+          <a class="has-arrow" href="javascript:void(0)" aria-expanded="false">
+            <img src="@/assets/admin/img/V-d.png" draggable="false" alt="" />
             <span class="nav-title"> Services </span>
-          </RouterLink>
+          </a>
+          <ul aria-expanded="false">
+            <li>
+              <RouterLink to="/user/data"> Data Bundle </RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/user/airtime"> Airtime Purchase </RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/user/utility"> Utility Bills </RouterLink>
+            </li>
+          </ul>
         </li>
         <li>
           <RouterLink to="/user/transactions" aria-expanded="false">
