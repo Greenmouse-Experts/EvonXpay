@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div>
+    <h1>hfhfhf</h1>
+  </div>
 </template>
 
 <script>
@@ -13,9 +15,9 @@ export default {
     const router = useRouter();
     const user = ref(JSON.parse(localStorage.getItem("userData")));
     onMounted(() => {
-      let trxref = route.query.trxref;
-      let reference = route.query.reference;
-      //console.log(userId, token);
+      let trxref = route.query.tx_ref;
+      let reference = route.query.transaction_id;
+      console.log(trxref, reference);
       if (trxref && reference) {
         axios
           .post(

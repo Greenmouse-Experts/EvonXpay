@@ -88,10 +88,13 @@
                     class="form-control"
                   >
                     <option value="">Select Provider</option>
-                    <option value="BIL099">Glo</option>
-                    <option value="BIL099">Mtn</option>
-                    <option value="BIL099">Airtel</option>
-                    <option value="BIL099">9mobile</option>
+                    <option
+                      v-for="item in billerProvider"
+                      :key="item"
+                      :value="item.biller_name"
+                    >
+                      {{ item.name }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -141,7 +144,7 @@
                 </button>
                 <button
                   v-if="!validating && !loading"
-                  @click="validatePayment"
+                  @click="BuyAirtime"
                   class="btn btn-success text-uppercase mt-1"
                 >
                   Buy Airtime
@@ -246,6 +249,7 @@ export default {
   setup() {
     const provider = ref("");
     const dataProvider = ref([]);
+    const billerProvider = ref([]);
     const bundle = ref("");
     const bundleAmount = ref(0);
     const validating = ref(true);
@@ -257,6 +261,10 @@ export default {
         .then((res) => {
           //console.log(res.data.data.data);
           dataProvider.value = res.data.data.data;
+          const billerName = dataProvider.value.filter(
+            (item) => item.biller_code == "BIL099"
+          );
+          billerProvider.value = billerName;
         });
     });
     const validatePayment = () => {
@@ -264,7 +272,7 @@ export default {
       loading.value = true;
       const payload = {
         item_code: "AT099",
-        code: provider.value,
+        code: "BIL009",
         customer: customer.value,
       };
       axios
@@ -283,15 +291,30 @@ export default {
           }
         });
     };
+    const BuyAirtime = () => {
+      const payload = {
+        type: "AIRTIME",
+        biller_name: provider.value,
+        customer: customer.value,
+        amount: bundleAmount.value,
+      };
+      axios
+        .post("https://evonxpay-backend.herokuapp.com/api/createBill", payload)
+        .then((res) => {
+          console.log(res);
+        });
+    };
     return {
       provider,
       bundle,
       dataProvider,
+      billerProvider,
       bundleAmount,
       validating,
       validatePayment,
       customer,
       loading,
+      BuyAirtime,
     };
   },
 };

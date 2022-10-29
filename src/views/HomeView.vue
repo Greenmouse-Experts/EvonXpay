@@ -12,10 +12,10 @@
             </p>
             <div class="btn-div">
               <h4>Download Our Mobile App</h4>
-              <a href="auth/signup.html" class="btn1"
+              <a href="auth/signup" class="btn1"
                 ><img src="@/assets/images/btn-app-store.svg"
               /></a>
-              <a href="auth/signup.html" class="btn2"
+              <a href="auth/signup" class="btn2"
                 ><img src="@/assets/images/btn-google-playstore.svg"
               /></a>
             </div>
@@ -260,7 +260,7 @@
               Evonex pay is the quickest way to go about your cyrpto
               transactions
             </p>
-            <a href="auth/signup.html">Get Started</a>
+            <a href="auth/signup">Get Started</a>
           </div>
         </div>
       </div>
@@ -277,7 +277,7 @@
               Evonex pay offers the best and most competetive rates in the
               market.
             </p>
-            <a href="auth/signup.html">Create Account</a>
+            <a href="auth/signup">Create Account</a>
           </div>
           <div class="col-md-1"></div>
           <div class="col-md-5 currency-img">
@@ -400,10 +400,10 @@
             <p>
               You can download our mobile app on App Store and Google Play Store
             </p>
-            <a href="auth/signup.html" class="btn1"
+            <a href="auth/signup" class="btn1"
               ><img src="@/assets/images/btn-app-store.svg"
             /></a>
-            <a href="auth/signup.html" class="btn2"
+            <a href="auth/signup" class="btn2"
               ><img src="@/assets/images/btn-google-playstore.svg"
             /></a>
           </div>
@@ -413,7 +413,7 @@
     <!--Call To Action Ends-->
 
     <!--Subscribe Newsletter-->
-    <section class="subscribe-form">
+    <!-- <section class="subscribe-form">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-6 text-center">
@@ -426,7 +426,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
     <!--Subscribe Newsletter Ends-->
   </div>
 </template>

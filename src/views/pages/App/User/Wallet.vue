@@ -50,20 +50,36 @@
       </div>
       <!-- Advertising Ends -->
       <div class="page-account-form col-md-12 mb-3">
-        <button
-          @click="showPrice"
-          style="
-            width: 20%;
-            padding: 10px;
-            text-align: center;
-            border: none;
-            background-color: #000;
-            color: #fff;
-            border-radius: 10px;
-          "
-        >
-          Deposit
-        </button>
+        <div class="row">
+          <div class="col-md-4">
+            <button
+              @click="showPrice"
+              style="
+                width: 100%;
+                padding: 10px;
+                text-align: center;
+                border: none;
+                background-color: #000;
+                color: #fff;
+                border-radius: 10px;
+                display: grid;
+              "
+            >
+              <div>
+                <span>Deposit</span>
+              </div>
+            </button>
+          </div>
+
+          <div class="col-md-8" style="text-align: left">
+            <font-awesome-icon
+              v-if="loading"
+              style="margin-top: 11px; color: #000; border: 0; max-width: 2%"
+              icon="fa-solid fa-spinner"
+              spin
+            />
+          </div>
+        </div>
       </div>
       <!-- Services -->
       <div class="row editable-wrapper">
@@ -120,6 +136,7 @@ export default {
     const user = ref(JSON.parse(localStorage.getItem("userData")));
     const route = useRoute();
     const transaction = ref([]);
+    const loading = ref(false);
     const totalbalance = ref(0);
     onMounted(() => {
       let message = route.query.message;
@@ -145,7 +162,7 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res.data.data);
+          //console.log(res.data.data);
           transaction.value = res.data.data;
         });
     });
@@ -164,7 +181,8 @@ export default {
           }
         },
       });
-      if (amount) {
+      if (parseInt(amount) >= 1000) {
+        loading.value = true;
         axios
           .post(
             "https://evonxpay-backend.herokuapp.com/api/deposit-wallet",
@@ -178,9 +196,15 @@ export default {
             }
           )
           .then((res) => {
-            console.log(res.data.transaction.data.authorization_url);
-            window.location.href = `${res.data.transaction.data.authorization_url}`;
+            //console.log(res.data.transaction.link);
+            loading.value = false;
+            window.location.href = `${res.data.transaction.link}`;
           });
+      } else {
+        loading.value = false;
+        Swal.fire({
+          text: "Amount cannot be less than 1000",
+        });
       }
     };
     return {
@@ -189,6 +213,7 @@ export default {
       transaction,
       getDate,
       totalbalance,
+      loading,
     };
   },
 };
